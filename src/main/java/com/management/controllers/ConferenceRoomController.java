@@ -1,7 +1,11 @@
 package com.management.controllers;
 
+import com.management.model.dto.AddUserToConferenceRoomDto;
 import com.management.model.dto.ConferenceRoomDto;
+import com.management.model.dto.LoginDataDto;
 import com.management.service.ConferecneRoomService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,4 +44,10 @@ public class ConferenceRoomController {
         return ResponseEntity.ok(conferenceRoomDto1);
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<ConferenceRoomDto> addUserToConferenceRoom(RequestEntity<AddUserToConferenceRoomDto> request) {
+        String token = request.getHeaders().get("Authorization").toString();
+        AddUserToConferenceRoomDto addUserToConferenceRoom = request.getBody();
+        return new ResponseEntity<>(conferecneRoomService.addUserToConferenceRoom(addUserToConferenceRoom, token), HttpStatus.CREATED);
+    }
 }
